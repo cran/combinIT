@@ -4,12 +4,16 @@
 \alias{Boik.test}
 \title{Boik's (1993) Locally Best Invariant (LBI) Test}
 \usage{
-Boik.test(x, nsim = 10000)
+Boik.test(x, nsim = 10000, alpha = 0.05, report = TRUE)
 }
 \arguments{
-\item{x}{a numeric matrix, \eqn{b \times a} data matrix where the number of row and column are corresponding to the number of block and treatment levels, respectively.}
+\item{x}{a numeric matrix, \eqn{a \times b} data matrix where the number of row and column is corresponding to the number of factor levels.}
 
 \item{nsim}{a numeric value, the number of Monte Carlo samples for calculating an exact Monte Carlo p-value. The default value is 10000.}
+
+\item{alpha}{a numeric value, the level of the test. The default value is 0.05.}
+
+\item{report}{logical: if \code{TRUE} the result of the test is reported at the \code{alpha} level.}
 }
 \value{
 An object of the class \code{ITtest}, which is a list inducing following components::
@@ -19,15 +23,17 @@ An object of the class \code{ITtest}, which is a list inducing following compone
 \item{Nsim}{The number of Monte Carlo samples that are used to estimate p-value.}
 \item{data.name}{The name of the input dataset.}
 \item{test}{The name of the test.}
+\item{Level}{The level of test.}
+\item{Result}{The result of the test at the alpha level with some descriptions on the type of significant interaction.}
 }
 \description{
-This function calculates the LBI test statistic for testing the null hypothesis \eqn{H_0:} there is no interaction.
-It returns an exact p-value when \eqn{p=2}. It returns an exact Monte Carlo p-value when \eqn{p>2}. It also provides an asymptotic chi-squared p-value. Note that the p-value of the Boik.test is always 1 when \eqn{p=1}.
+This function calculates the LBI test statistic for testing the null hypothesis \eqn{H_0:} There is no interaction.
+It returns an exact p-value when \eqn{p=2} where \eqn{p=min\{a-1,b-1\}}. It returns an exact Monte Carlo p-value when \eqn{p>2}. It also provides an asymptotic chi-squared p-value. Note that the p-value of the Boik.test is always one when \eqn{p=1}.
 }
 \details{
-The LBI test statistic is \eqn{T_B93=(tr(R'R))^2/(p tr((R'R)^2))} where \eqn{p=min{a-1,b-1}} and \eqn{R} is the residual
-  matrix of the input data matrix, \eqn{x}, under the null hypothesis \eqn{H_0:} there is no interaction. This test rejects the null hypothesis of no interaction when \eqn{T_B93} is small.
-  Boik (1993) provided the exact distribution of \eqn{T_B93} when \eqn{p=2} under \eqn{H_0}. In addition, he provided an asymptotic approximation of \eqn{T_B93} under \eqn{H_0} when \eqn{q} tends to infinity where \eqn{q=max{a-1,b-1}}.
+The LBI test statistic is \eqn{T_{B93}=(tr(R'R))^2/(p tr((R'R)^2))} where \eqn{p=min\{a-1,b-1\}} and \eqn{R} is the residual
+  matrix of the input data matrix, \eqn{x}, under the null hypothesis \eqn{H_0:} There is no interaction. This test rejects the null hypothesis of no interaction when \eqn{T_{B93}} is small.
+  Boik (1993) provided the exact distribution of \eqn{T_{B93}} when \eqn{p=2} under \eqn{H_0}. In addition, he provided an asymptotic distribution of \eqn{T_{B93}} under \eqn{H_0} when \eqn{q} tends to infinity where \eqn{q=max\{a-1,b-1\}}.
   Note that the LBI test is powerful when the \eqn{a \times b} matrix of interaction terms has small rank and one singular value dominates the remaining singular values or
   in practice, if the largest eigenvalue of \eqn{RR'} is expected to dominate the remaining eigenvalues.
 }

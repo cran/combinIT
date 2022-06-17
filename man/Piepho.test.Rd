@@ -2,14 +2,18 @@
 % Please edit documentation in R/Piepho_test.R
 \name{Piepho.test}
 \alias{Piepho.test}
-\title{Piepho (1994) Test for Interaction}
+\title{Piepho's (1994) Test for Interaction}
 \usage{
-Piepho.test(x, nsim = 10000)
+Piepho.test(x, nsim = 10000, alpha = 0.05, report = TRUE)
 }
 \arguments{
-\item{x}{numeric matrix, \eqn{b \times a} data matrix where the number of rows and columns are corresponding to the block and treatment levels, respectively.}
+\item{x}{numeric matrix, \eqn{a \times b} data matrix where the number of row and column is corresponding to the number of factor levels.}
 
 \item{nsim}{a numeric value, the number of Monte Carlo samples for computing an exact Monte Carlo p-value. The default value is 10000.}
+
+\item{alpha}{a numeric value, the level of the test. The default value is 0.05.}
+
+\item{report}{logical: if \code{TRUE} the result of the test is reported at the \code{alpha} level.}
 }
 \value{
 An object of the class \code{ITtest}, which is a list inducing following components:
@@ -19,16 +23,18 @@ An object of the class \code{ITtest}, which is a list inducing following compone
 \item{Nsim}{The number of Monte Carlo samples that are used to estimate p-value.}
 \item{data.name}{The name of the input dataset.}
 \item{test}{The name of the test.}
+\item{Level}{The level of test.}
+\item{Result}{The result of the test at the alpha level with some descriptions on the type of significant interaction.}
 }
 \description{
 This function tests the interaction based on a statistic proposed by Piepho (1994).
-This function reports Piepho's test statistic, and the asymptotic and Monte Carlo p-values.
+This function reports Piepho's test statistic, an asymptotic p-value, and a Monte Carlo p-value.
 }
 \details{
-Piepho (1994) proposed three test statistics.The third one is
- based on Grubbs’ (1948) type estimator of variance for each level of block effect.
- This type of estimator is used in this function. Piepho (1994) proposed an asymptotic distribution of test statistic; however, we use a Monte Carlo method to calculate the p-value.
- Note that Piepho’s test is powerful for detecting interactions when the Grubbs’ type estimators of variances are heterogeneous across the levels of one factor.
+Piepho (1994) proposed three test statistics. The third one is
+ based on Grubbs’ (1948) type estimator of variance for the level of the row factor.
+ This type of estimator is used in this function. Piepho (1994) proposed an asymptotic distribution of test statistic; however, a Monte Carlo method is used to calculate the p-value.
+ The Piepho test is not applicable when the row number of the data matrix is less than three. Note that Piepho’s test is powerful for detecting interactions when the Grubbs’ type estimators of variances are heterogeneous across the levels of one factor.
 }
 \examples{
 data(MVGH)
