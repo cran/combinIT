@@ -1,7 +1,4 @@
-#' This is an internal function which compute Kronecker product for PIC method
-#'
-#' @keywords internal
-
+## This is an internal function which compute Kronecker product for PIC method
 kpr <- function(bl, tr) {
   wa <- combn(bl, 2)
   wb <- combn(tr, 2)
@@ -19,14 +16,7 @@ kpr <- function(bl, tr) {
   return(c)
 }
 
-
-#' internal function forcombining pvalues
-
-#'
-#' @keywords internal
-#'
 #' @importFrom mvtnorm pmvnorm
-
 comb <- function(pvalues) {
   P <- pvalues
   P[P == 0] <- 10^(-6)
@@ -49,14 +39,12 @@ comb <- function(pvalues) {
   list(Bon = Bon, Sidak = Sidak, jacobi = jacobi, GC = GC) # GC=Goussian Copula=MVNormal
 }
 
-
-
 #' @importFrom utils combn
-Result.KKSA <- function(x, nsim, alpha, simu) {
+Result_KKSA <- function(x, nsim, alpha, simu) {
   bl <- nrow(x)
   tr <- ncol(x)
   if (bl < 4) {
-    str <- paste("This test is not applicable when the row number is less than four. You may use the transpose of the data matrix if the number of column is greater than three.", "\n")
+    str <- paste0("This test is not applicable when the row number is less than four. You may use the transpose of the data matrix if the number of column is greater than three.", "\n")
     index <- 1:bl
   } else {
     qKKSA <- quantile(simu, prob = alpha, names = FALSE)
@@ -90,12 +78,12 @@ Result.KKSA <- function(x, nsim, alpha, simu) {
         }
       }
     }
-    str1 <- paste("There may exist a significant intercation. The magnitude of interaction effects is heteroscedastic across the sub-tables of observations.")
-    expre1 <- paste(index, collapse = ", ")
-    expre2 <- paste((1:bl)[-index], collapse = ", ")
-    str2 <- paste("The first sub-table consists of rows", expre1, "with RSS=", round(RSS1, 4), "on", df1, "degrees of freedoms.")
-    str3 <- paste("The second sub-table consists of rows", expre2, "with RSS=", round(RSS2, 4), "on", df2, "degrees of freedoms.")
-    str4 <- paste("The estimated critical value of the KKSA.test with", nsim, "Monte Carlo samples is", round(qKKSA, 4), ".")
+    str1 <- paste0("There exists a significant interaction at the ", paste0(100 * (alpha), "%"), " level.", " The magnitude of interaction effects is heteroscedastic across the sub-tables of observations.")
+    expre1 <- paste0(index, collapse = ", ")
+    expre2 <- paste0((1:bl)[-index], collapse = ", ")
+    str2 <- paste0("The first sub-table consists of rows ", expre1, " with RSS=", round(RSS1, 4), " on ", df1, " degrees of freedoms.")
+    str3 <- paste0("The second sub-table consists of rows ", expre2, " with RSS=", round(RSS2, 4), " on ", df2, " degrees of freedoms.")
+    str4 <- paste0("The estimated critical value of the KKSA_test at the ", paste0(100 * (alpha), "%"), " level with ", nsim, " Monte Carlo samples is ", round(qKKSA, 4), ".")
     str <- paste(str1, str2, str3, str4)
   }
   list(string = str, index = index)
@@ -103,11 +91,11 @@ Result.KKSA <- function(x, nsim, alpha, simu) {
 
 
 
-Result.Piepho <- function(x, nsim, alpha, simu) {
+Result_Piepho <- function(x, nsim, alpha, simu) {
   bl <- nrow(x)
   tr <- ncol(x)
   if (bl < 3) {
-    str <- paste("This test is not applicable when the row number is less than three. You may use the transpose of the data matrix if the number of column is greater than two.", "\n")
+    str <- paste0("This test is not applicable when the row number is less than three. You may use the transpose of the data matrix if the number of column is greater than two.", "\n")
   }
   if (any(is.nan(simu))) {
     str <- paste("This test is not applicable", "\n")
@@ -117,11 +105,11 @@ Result.Piepho <- function(x, nsim, alpha, simu) {
     R <- x - matrix(rowMeans(x), bl, tr) - matrix(colMeans(x), bl, tr, byrow = TRUE) + mean(x)
     W <- rowSums(R^2)
     sigmahat <- (bl * (bl - 1) * W - sum(W)) / ((bl - 1) * (bl - 2) * (tr - 1))
-    str1 <- paste("There may exist a significant intercation.")
-    str2 <- paste("The Grubbs' estimtors of the row variances are heterogeneous.")
+    str1 <- paste0("There exists a significant interaction at the ", paste0(100 * (alpha), "%"), " level.")
+    str2 <- paste0("The Grubbs' estimtors of the row variances are heterogeneous")
     Grubbs <- paste(round(sigmahat, 4), collapse = ", ")
-    str3 <- paste("The Grubbs' variance estimators are:", Grubbs, ".")
-    str4 <- paste("The estimated critical value of the Piepho.test with", nsim, "Monte Carlo samples is", round(qPiepho, 4), ".")
+    str3 <- paste0("and they are: ", Grubbs, ".")
+    str4 <- paste0("The estimated critical value of the Piepho_test at the ", paste0(100 * (alpha), "%"), " level with ", nsim, " Monte Carlo samples is ", round(qPiepho, 4), ".")
     str <- paste(str1, str2, str3, str4)
   }
   str
@@ -129,7 +117,7 @@ Result.Piepho <- function(x, nsim, alpha, simu) {
 
 
 
-Result.Malik <- function(x, simu, alpha, nsim) {
+Result_Malik <- function(x, simu, alpha, nsim) {
   bl <- nrow(x)
   tr <- ncol(x)
   qMalik <- quantile(simu, prob = 1 - alpha, names = FALSE)
@@ -137,12 +125,12 @@ Result.Malik <- function(x, simu, alpha, nsim) {
   R <- round(R, 5)
   Min <- min(R)
   Max <- max(R)
-  Index.Min <- which(R == Min)
-  Index.Max <- which(R == Max)
-  pmax <- Index.Max %/% bl
-  rmax <- Index.Max %% bl
-  pmin <- Index.Min %/% bl
-  rmin <- Index.Min %% bl
+  Index_Min <- which(R == Min)
+  Index_Max <- which(R == Max)
+  pmax <- Index_Max %/% bl
+  rmax <- Index_Max %% bl
+  pmin <- Index_Min %/% bl
+  rmin <- Index_Min %% bl
   cellmax <- matrix(0, nrow = length(pmax), ncol = 2)
   cellmin <- matrix(0, nrow = length(pmin), ncol = 2)
   for (i in 1:length(pmax)) {
@@ -159,25 +147,25 @@ Result.Malik <- function(x, simu, alpha, nsim) {
       cellmin[i, ] <- c(rmin[i], pmin[i] + 1)
     }
   }
-  str1 <- paste("There may exist a significant intercation.", "The significant interaction might due to the some outliers in residuals; some cells produce large negative or positive residuals:", "\n")
-  str2 <- paste("The cell with row=", cellmin[1, 1], "and column=", cellmin[1, 2], "produces a large negative residual,", "\n")
+  str1 <- paste0("There exists a significant interaction at the ", paste0(100 * (alpha), "%"), " level.", "The significant interaction might due to the some outliers in residuals; some cells produce large negative or positive residuals:", "\n")
+  str2 <- paste0("The cell with row=", cellmin[1, 1], " and column=", cellmin[1, 2], " produces a large negative residual", "\n")
   if (length(pmin) > 2) {
     for (i in 2:length(pmin)) {
-      str2 <- paste(str2, "The cell with row=", cellmin[i, 1], "and column=", cellmin[i, 2], "produces a large negative residual,", "\n")
+      str2 <- paste0(str2, "The cell with row=", cellmin[i, 1], " and column=", cellmin[i, 2], " produces a large negative residual", "\n")
     }
   }
-  str3 <- paste("The cell with row=", cellmax[1, 1], "and column=", cellmax[1, 2], "produces a large positive residual,", "\n")
+  str3 <- paste0("The cell with row=", cellmax[1, 1], " and column=", cellmax[1, 2], " produces a large positive residual", "\n")
   if (length(pmax) > 2) {
     for (i in 2:length(pmax)) {
-      str3 <- paste(str3, "The cell with row=", cellmax[i, 1], "and column=", cellmax[i, 2], "produces a large positive residual,", "\n")
+      str3 <- paste0(str3, "The cell with row=", cellmax[i, 1], " and column=", cellmax[i, 2], " produces a large positive residual", "\n")
     }
   }
-  str4 <- paste("The estimated critical value of the Malik.test with", nsim, "Monte Carlo samples is", round(qMalik, 4), ".")
+  str4 <- paste0("The estimated critical value of the Malik_test at the ", paste0(100 * (alpha), "%"), " level with ", nsim, " Monte Carlo samples is ", round(qMalik, 4), ".")
   str <- paste(str1, str2, str3, str4)
   return(str)
 }
 
-Result.KKM <- function(x, simu, nsim, alpha, nc0) {
+Result_KKM <- function(x, simu, nsim, alpha, nc0) {
   if (requireNamespace("MASS", quietly = TRUE)) {
     if (requireNamespace("Matrix", quietly = TRUE)) {
       qKKM <- quantile(simu, prob = 1 - alpha, names = FALSE)
@@ -210,16 +198,16 @@ Result.KKM <- function(x, simu, nsim, alpha, nc0) {
         }
         C1 <- kp[Index, ]
         sigma2hat <- t(y) %*% (MASS::ginv(C1) %*% C1) %*% y / Matrix::rankMatrix(C1)[1]
-        str1 <- paste("There may exist a significant intercation and it might be caused by some cells.", "The absolute estimates of the significant pairwise interaction contrasts (PIC) and the corresponding involved cell means are:", "\n")
+        str1 <- paste0("There exists a significant interaction at the ", paste0(100 * (alpha), "%"), " level and it might be caused by some cells.", " The absolute estimates of the significant pairwise interaction contrasts (PIC) and the corresponding involved cell means are:", "\n")
         ex1 <- paste(paste0("|mu_{", M[1, 1], "}-mu_{", M[1, 2], "}-mu_{", M[1, 3], "}+mu_{", M[1, 4], "}|="), round(SZ[1], 4), "\n")
         for (i in 2:length(Index)) {
           ex1 <- paste(ex1, paste0("|mu_{", M[i, 1], "}-mu_{", M[i, 2], "}-mu_{", M[i, 3], "}+mu_{", M[i, 4], "}|="), round(SZ[i], 4), "\n")
         }
         str2 <- ex1
-        str3 <- paste("The variance estimate under the non-additivity assumption is", round(sigma2hat, 4), "on", Matrix::rankMatrix(C1)[1], "degrees of freedom.", "The estimated critical value of the KKM.test with", nsim, "Monte Carlo samples is", round(qKKM, 4), ".")
-        str <- paste(str1, str2, str3)
+        str3 <- paste0("The variance estimate under the non-additivity assumption is ", round(sigma2hat, 4), " on ", Matrix::rankMatrix(C1)[1], " degrees of freedom.", " The estimated critical value of the KKM_test at the ", paste0(100 * (alpha), "%"), " level with ", nsim, " Monte Carlo samples is ", round(qKKM, 4), ".")
+        str <- paste0(str1, str2, str3)
       } else {
-        str <- paste("The KKM.test could not detect any significant interaction.", "The estimated critical value of the KKM.test with", nsim, "Monte Carlo samples is", round(qKKM, 4), ".")
+        str <- paste0("The KKM_test could not detect any significant interaction at the ", paste0(100 * (alpha), "%"), " level.", " The estimated critical value of the KKM_test at the ", paste0(100 * (alpha), "%"), " level with ", nsim, " Monte Carlo samples is ", round(qKKM, 4), ".")
       }
       return(str)
     }
@@ -231,7 +219,7 @@ Result.KKM <- function(x, simu, nsim, alpha, nc0) {
 
 
 #' @importFrom stats qbeta
-Result.Boik <- function(x, nsim, alpha, simu) {
+Result_Boik <- function(x, nsim, alpha, simu) {
   bl <- nrow(x)
   tr <- ncol(x)
   n <- tr * bl
@@ -239,24 +227,24 @@ Result.Boik <- function(x, nsim, alpha, simu) {
   q <- max(tr - 1, bl - 1)
   df <- (p + 2) * (p - 1) / 2
   if (p == 1) {
-    boik.p <- 1
+    boik_p <- 1
     qBoik <- 1
-    str3 <- paste("The exact critical value of the Boik.test is:", 1, ".")
+    str3 <- paste0("The exact critical value of the Boik_test is: ", 1, ".")
   }
   if (p > 2) {
     qBoik <- quantile(simu, prob = alpha, names = FALSE)
-    str3 <- paste("The estimated critical value of the Boik.test with", nsim, "Monte Carlo samples is", round(qBoik, 4), ".")
+    str3 <- paste0("The estimated critical value of the Boik_test at the ", paste0(100 * (alpha), "%"), " level with ", nsim, " Monte Carlo samples is ", round(qBoik, 4), ".")
   }
   if (p == 2) {
     qBoik <- qbeta(1 - alpha, 1, (q - 1) / 2)
     qBoik <- 1 / (qBoik + 1)
-    str3 <- paste("The exact critical value of the Boik.test is", round(qBoik, 4), ".")
+    str3 <- paste0("The exact critical value of the Boik_test at the ", paste0(100 * (alpha), "%"), " is ", round(qBoik, 4), ".")
   }
   R <- x - matrix(rowMeans(x), bl, tr) - matrix(colMeans(x), bl, tr, byrow = TRUE) + mean(x)
   EV <- round(eigen(R %*% t(R))$values, 4)
-  str1 <- paste("There may exist a significant multiplicative form of intercation.")
+  str1 <- paste0("There exists a significant multiplicative form of interaction at the ", paste0(100 * (alpha), "%"), " level.")
   expre <- paste(as.character(EV), collapse = ", ")
-  str2 <- paste("The eigen values of the RR' matrix are:", expre, ".")
+  str2 <- paste0("The eigen values of the RR' matrix are: ", expre, ".")
   str3 <- str3
   str <- paste(str1, str2, str3)
   return(str)
@@ -266,7 +254,7 @@ Result.Boik <- function(x, nsim, alpha, simu) {
 
 
 #' @importFrom utils combn
-Result.Franck <- function(x, nsim, alpha, simu) {
+Result_Franck <- function(x, nsim, alpha, simu) {
   tr <- ncol(x)
   bl <- nrow(x)
   if (bl < 3) {
@@ -315,12 +303,12 @@ Result.Franck <- function(x, nsim, alpha, simu) {
       }
     }
     sb2 <- c(1:bl)[-sb1]
-    str1 <- paste("A significant hidden structure of intercation might exist.")
-    expre1 <- paste((sb1), collapse = ", ")
-    expre2 <- paste((sb2), collapse = ", ")
-    str2 <- paste("The first group includes rows:", expre1, ".")
-    str3 <- paste("The second group includes rows:", expre2, ".")
-    str4 <- paste("The estimated critical value of the Franck.test with", nsim, "Monte Carlo samples is", round(qFranck, 4), ".")
+    str1 <- paste0("A significant hidden structure exists at the ", paste0(100 * (alpha), "%"), " level.")
+    expre1 <- paste0((sb1), collapse = ", ")
+    expre2 <- paste0((sb2), collapse = ", ")
+    str2 <- paste0("The first group includes rows: ", expre1, ".")
+    str3 <- paste0("The second group includes rows: ", expre2, ".")
+    str4 <- paste0("The estimated critical value of the Franck_test at the ", paste0(100 * (alpha), "%"), " level with ", nsim, " Monte Carlo samples is ", round(qFranck, 4), ".")
     str <- paste(str1, str2, str3, str4)
   }
   return(list(string = str, index = sb1))
