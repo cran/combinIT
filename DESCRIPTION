@@ -1,7 +1,7 @@
 Package: combinIT
 Type: Package
 Title: A Combined Interaction Test for Unreplicated Two-Way Tables
-Version: 2.0.0
+Version: 2.0.1
 Authors@R: c(
     person("Zahra", "Shenavari", email = "zshenavari@yahoo.com", role = "aut"),
     person("Hossein", "Haghbin", email = "haghbin@pgu.ac.ir",role = c("aut", "cre"),
@@ -17,17 +17,19 @@ BugReports: https://github.com/haghbinh/combinIT/issues
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: TRUE
-RoxygenNote: 7.2.0
+RoxygenNote: 7.3.2
 Imports: Rcpp,mvtnorm
 Suggests: MASS, Matrix, testthat (>= 3.0.0)
 Config/testthat/edition: 3
 LinkingTo: Rcpp, RcppArmadillo
 Depends: R (>= 4.0),
 NeedsCompilation: yes
-Packaged: 2022-10-21 04:37:25 UTC; Hossein
+Packaged: 2025-10-20 09:56:47 UTC; Haghbin
 Author: Zahra Shenavari [aut],
-  Hossein Haghbin [aut, cre] (<https://orcid.org/0000-0001-8416-2354>),
-  Mahmood Kharrati-Kopaei [aut] (<https://orcid.org/0000-0001-5555-253X>),
+  Hossein Haghbin [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-8416-2354>),
+  Mahmood Kharrati-Kopaei [aut] (ORCID:
+    <https://orcid.org/0000-0001-5555-253X>),
   Seyed Morteza Najibi [aut]
 Repository: CRAN
-Date/Publication: 2022-10-21 07:35:08 UTC
+Date/Publication: 2025-10-20 14:30:07 UTC

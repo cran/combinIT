@@ -1,6 +1,6 @@
-83b2caf3ed67c647cd9363b7566bfb84 *DESCRIPTION
+eb0a03f1dcc6f9c39915ea48e8f3b4e0 *DESCRIPTION
 ad5a7a661d3b912ec024041b25e5d3a7 *NAMESPACE
-6b116a4ceb82bb5d7fd0d64fb817e039 *NEWS.md
+94394b619c1f14e04222008638c9f533 *NEWS.md
 030b36d4a7ad8f3568a2ebb2bb217277 *R/Boik_test.R
 59e85677cf6ad426c056afd74d83e831 *R/CI_test.R
 0743973714310cab5285eb76904bcfda *R/CNV.R
@@ -19,6 +19,7 @@ cf713944ae4df94760415eb554810061 *R/combtest_methods.R
 d49dd9a069453b268373b8b691a995ab *R/plots.R
 375cc2829ca7a8bf6cba20677c80a7a5 *R/utiles.R
 dc0b494783c18d945b8aa570aa3231d9 *R/zzz.R
+0f28276c0059161c6052a173bc9151e0 *README.md
 0399dea2246058496cfd5d05ab0286af *data/CNV.rda
 0362282be915b2aea4ec80d2d5544794 *data/IDCP.rda
 90ff7bfc6d3df65b5841626671309899 *data/MVGH.rda
@@ -35,8 +36,8 @@ ea78ed55ba2e3ffcf58878de773a039b *man/Malik_test.Rd
 f4a6cdca0ad646ed16bbab2115014b81 *man/Piepho_test.Rd
 85188c5679d668d51752957129e60b3d *man/RDWW.Rd
 715adca8c74ae0528824bf93c6a02c71 *man/interaction_plot.Rd
-782a4434a8ad090f4f70f960b24d4afd *src/Makevars
-13b03cd3dd721948c30479759060bb49 *src/Makevars.win
+4ad63667777a6627ad3f7eee1041b94d *src/Makevars
+2cf95ecfd7f0c5103581f40990aa2133 *src/Makevars.win
 e590dc7dcb02af38fce8ca64f3485e2a *src/RcppExports.cpp
 f74ac903740b3fea6bd285b4f8f6a25e *src/fastcodes.cpp
 39e6813df621538df05714aba5e01939 *tests/testthat.R
